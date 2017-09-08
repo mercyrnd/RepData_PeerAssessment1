@@ -134,6 +134,18 @@ rda &lt;- read_delim(&quot;repdata%2Fdata%2Factivity.zip&quot;, &quot;,&quot;, n
 </div>
 <div id="plot-the-total-number-of-steps-taken-each-day" class="section level2">
 <h2>Plot the total number of steps taken each day</h2>
+<pre class="r"><code>png(filename = &quot;hist_daily_steps.png&quot;,
+    width = 480, height = 480, units = &quot;px&quot;, pointsize = 12,
+    bg = &quot;white&quot;, res = NA, family = &quot;&quot;, restoreConsole = TRUE,
+    type = c(&quot;windows&quot;, &quot;cairo&quot;, &quot;cairo-png&quot;))
+
+bydate &lt;- aggregate(rda$steps, by=list(Date = rda$date), FUN = sum, na.action = NULL)
+hist(bydate$x, breaks = 20, main = &quot;Frequency of Daily Step Count&quot;, 
+     xlab = &quot;Total Daily Steps&quot;, ylab = &quot;Frequency&quot;)
+
+dev.off()</code></pre>
+<pre><code>## png 
+##   2</code></pre>
 <pre class="r"><code>bydate &lt;- aggregate(rda$steps, by=list(Date = rda$date), FUN = sum, na.action = NULL)
 hist(bydate$x, breaks = 20, main = &quot;Frequency of Daily Step Count&quot;, 
      xlab = &quot;Total Daily Steps&quot;, ylab = &quot;Frequency&quot;)</code></pre>
