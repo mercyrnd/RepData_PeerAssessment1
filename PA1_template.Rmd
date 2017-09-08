@@ -1,9 +1,8 @@
 ---
 title: "Reproducible Research - Week 2 - Course Project 1"
 output:
-  word_document: default
-  keep_md: yes
   html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
