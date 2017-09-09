@@ -26,17 +26,6 @@ rda <- read_delim("repdata%2Fdata%2Factivity.zip", ",", na = "NA")
 ## Plot the total number of steps taken each day
 
 ```{r}
-png(filename = "hist_daily_steps.png",
-    width = 480, height = 480, units = "px", pointsize = 12,
-    bg = "white", res = NA, family = "", restoreConsole = TRUE,
-    type = c("windows", "cairo", "cairo-png"))
-
-bydate <- aggregate(rda$steps, by=list(Date = rda$date), FUN = sum, na.action = NULL)
-hist(bydate$x, breaks = 20, main = "Frequency of Daily Step Count", 
-     xlab = "Total Daily Steps", ylab = "Frequency")
-
-dev.off()
-
 bydate <- aggregate(rda$steps, by=list(Date = rda$date), FUN = sum, na.action = NULL)
 hist(bydate$x, breaks = 20, main = "Frequency of Daily Step Count", 
      xlab = "Total Daily Steps", ylab = "Frequency")
