@@ -1,9 +1,8 @@
 ---
 title: "Reproducible Research - Week 2 - Course Project 1"
 output:
-  html_document: default
-  md_document:
-    variant: markdown_github
+  html_document: 
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -26,6 +25,17 @@ rda <- read_delim("repdata%2Fdata%2Factivity.zip", ",", na = "NA")
 ## Plot the total number of steps taken each day
 
 ```{r}
+png(filename = "hist_daily_steps.png",
+    width = 480, height = 480, units = "px", pointsize = 12,
+    bg = "white", res = NA, family = "", restoreConsole = TRUE,
+    type = c("windows", "cairo", "cairo-png"))
+
+bydate <- aggregate(rda$steps, by=list(Date = rda$date), FUN = sum, na.action = NULL)
+hist(bydate$x, breaks = 20, main = "Frequency of Daily Step Count", 
+     xlab = "Total Daily Steps", ylab = "Frequency")
+
+dev.off()
+
 bydate <- aggregate(rda$steps, by=list(Date = rda$date), FUN = sum, na.action = NULL)
 hist(bydate$x, breaks = 20, main = "Frequency of Daily Step Count", 
      xlab = "Total Daily Steps", ylab = "Frequency")
@@ -34,9 +44,7 @@ hist(bydate$x, breaks = 20, main = "Frequency of Daily Step Count",
 ## Mean and median number of steps taken each day
 
 ```{r}
-mm <- aggregate(rda$steps, by = list(Date = rda$date), 
-                FUN = function(x) c(mean = mean(x), median = median(x, na.action = NULL)))
-print(mm)
+summary(rda$steps)
 ```
 
 ## Average daily activity pattern
@@ -66,7 +74,7 @@ byint[which.max(byint$steps), 1:2]
 paste("The number of missing values in the dataset is:", sum(is.na(rda)))
 ```
 
-## Replace "NA" values in the dataset with the average value for that interval
+## Replace "NA" values in the dataset with the *average value for that interval*
 ```{r}
 ## First, the data is reshaped:
 mlt <- melt(rda, id=2:3)
@@ -100,9 +108,7 @@ hist(bydat$x, breaks = 20, ylim=c(0,20), xlim = c(0,20000),
 
 ## and report the mean and median of the adjusted dataset
 
-mmm <- aggregate(mlt$value, by = list(Date = rda$date), 
-                FUN = function(x) c(mean = mean(x), median = median(x)))
-print(mmm)
+summary(mlt$value)
 
 ```
 
@@ -119,8 +125,7 @@ hist(bydate$x, breaks = 20, main = "Frequency of Daily Step Count", ylim = c(0,2
 ```
  
  We can see that the "bell" shape of the graph has gotten narrower and higher in amplitude.  
- As for the mean and median values, there are now values where there were previously not values.  
- Where there were values previously, these values are unchanged.
+ As for the mean and median values, these values are unchanged.
  
  ## Are there differences between weekdays and weekends?
  
